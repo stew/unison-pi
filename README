@@ -1,0 +1,22 @@
+.> display trunk.README
+
+  
+  
+  This is an example Unison project which estimates Π by picking points randomly inside a 2 unit square
+  and counts how many fall inside a unit circle. Over time, the ratio of points inside and outside of
+  the circle should converge on Π.
+  
+  trunk.estimatePi rounds =
+    loop : Nat -> Nat -> Nat -> Float
+    loop left hit total =
+      if Nat.eq left 0 then
+        use Float * /
+        use Nat toFloat
+        [: After all the rounds have run, the ration of hits to total should be ¼Π :]
+        4.0 * (toFloat hit / toFloat total)
+      else
+        hit' =
+          use Nat +
+          hit + (if testPoint !nextPoint then 1 else 0)
+        loop (Nat.decrement left) hit' (Nat.increment total)
+    mersenne.provide int.next defaultSeed '(loop rounds 0 0)
